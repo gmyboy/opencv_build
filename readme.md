@@ -7,7 +7,13 @@
 ./init-android-opencv.sh arm64
 ```
 
-2.配置OpenCV参数 (可选default:默认配置、lite：轻量级,包含人脸识别等基本库、min：最小化编译，只包含core)
+2.配置OpenCV参数 
+
+- default：默认配置
+- lite：轻量级,包含人脸识别等基本库
+- lite-catlib3d：包含catlib3d的轻量级配置，用于ImageMatch(ORB)
+- min：最小化编译，只包含core
+
 ```
 ./init-config.sh lite
 ```
