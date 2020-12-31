@@ -33,6 +33,12 @@ case "$CV_TARGET" in
         echo ""
         echo "config complete with lite"
     ;;
+    lite-calib3d)
+        cp contrib/config/module-lite-calib3d.sh contrib/config/module.sh
+        cat contrib/config/module.sh
+        echo ""
+        echo "config complete with lite"
+    ;;
     default)
         cp contrib/config/module-default.sh contrib/config/module.sh
         cat contrib/config/module.sh
