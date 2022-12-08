@@ -1,6 +1,6 @@
 ### IRDetector构建步骤
 
-> abi 参数可选armeabi-v7a|arm64-v8a|x86|x86_64|""(build all as default)
+> abi 参数可选
 
 1.初始化项目依赖库:OpenCV OpenCV_contrib
 ```
@@ -8,34 +8,20 @@
 ```
 
 2.配置OpenCV参数 
-
 - default：默认配置
 - calib3d：包含calib3d的轻量级配置，用于(ImageMatch-ORB)
 - min：最小化编译，只包含core
 
 ```
-./config.sh calib3d
+./config.sh [min|calib3d|default or ""]
 ```
 
 3.构建OpenCV
 ```
-cd contrib
-./compile-android.sh arm64-v8a
+./compile-android.sh [armeabi-v7a|arm64-v8a|x86|x86_64|""(build all as default)]
 ```
 
-4.check *.so、include
-```
-cd ../src/main/jni/opencv/prebuild
-cd ../src/main/jni/opencv/include
-```
-
-5.修改OpenCV、OpenCV_contrib的版本
-```
-vi init-android-opencv.sh
-branch=4.0.0
-```
-
-6.常见问题
+4.常见问题
 ```
 -- xfeatures2d/boostdesc: Download: boostdesc_bgm.i
 -- xfeatures2d/boostdesc: Download: boostdesc_bgm_bi.i
