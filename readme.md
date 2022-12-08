@@ -2,9 +2,9 @@
 
 > abi 参数可选all|armv7a(default)|arm64|x86|x86_64
 
-1.初始化项目依赖库OpenCV OpenCV_contrib
+1.初始化项目依赖库:OpenCV OpenCV_contrib
 ```
-./init-android-opencv.sh arm64
+./init.sh
 ```
 
 2.配置OpenCV参数 
