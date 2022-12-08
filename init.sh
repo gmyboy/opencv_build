@@ -17,7 +17,9 @@ set -e
 #remote_opencv=https://github.com/opencv/opencv.git
 # use mirror
 remote_opencv=http://192.168.10.14:3000/gmy/opencv.git
+version_opencv=4.5.1
 remote_opencv_contrib=http://192.168.10.14:3000/gmy/opencv_contrib.git
+version_opencv_contrib=4.5.1
 local_opencv=opencv
 local_opencv_contrib=opencv_contrib
 
@@ -26,10 +28,14 @@ git --version
 function pull_repo() {
     REMOTE_REPO=$1
     LOCAL_WORKSPACE=$2
+    TAG_NAME=$3
     if [ -z $REMOTE_REPO -o -z $LOCAL_WORKSPACE ]; then
         echo "invalid call init.sh '$REMOTE_REPO' '$LOCAL_WORKSPACE'"
     elif [ ! -d $LOCAL_WORKSPACE ]; then
         git clone $REMOTE_REPO $LOCAL_WORKSPACE
+        cd $LOCAL_WORKSPACE
+        git checkout -b compile/$TAG_NAME $TAG_NAME
+        cd -
     else
         cd $LOCAL_WORKSPACE
         git fetch --all --tags
@@ -38,9 +44,9 @@ function pull_repo() {
 }
 
 echo "------------------------------"
-echo -e "${RED}[*] pull OpenCV from ($remote_opencv) ${NC}"
+echo -e "${RED}[*] pull OpenCV [${version_opencv}] from ($remote_opencv) ${NC}"
 echo "------------------------------"
-pull_repo ${remote_opencv} ${local_opencv}
+pull_repo ${remote_opencv} ${local_opencv} ${version_opencv}
 
 #patch xfeature2d
 cd ${local_opencv}
@@ -56,11 +62,12 @@ cp -r ../patch/ade/* .cache/ade
 #patch data
 mkdir -p .cache/data
 cp -r ../patch/data/8afa57abc8229d611c4937165d20e2a2d9fc5a12-face_landmark_model.dat .cache/data/7505c44ca4eb54b4ab1e4777cb96ac05-face_landmark_model.dat
+cd -
 
 echo "------------------------------"
-echo -e "${RED}[*] pull OpenCV_contrib from ($remote_opencv) ${NC}"
+echo -e "${RED}[*] pull OpenCV_contrib [${version_opencv_contrib}] from ($remote_opencv_contrib) ${NC}"
 echo "------------------------------"
-pull_repo ${remote_opencv_contrib} ${local_opencv_contrib}
+pull_repo ${remote_opencv_contrib} ${local_opencv_contrib} ${version_opencv_contrib}
 
 echo "----------------------"
 echo -e "${RED}[*] Finish init OpenCV ${NC}"

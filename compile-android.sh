@@ -54,17 +54,18 @@ ACT_ARCHS_ALL="armeabi-v7a arm64-v8a x86 x86_64"
 
 function compile() {
     ABI=$1
+    if [ -z "$ABI" ]; then
+        echo "You must specific an architecture in '${ACT_ARCHS_ALL}'."
+        exit 1
+    fi
+
     # mk output dir
     CV_SOURCE=${ROOT_PATH}\\opencv
     CV_CONTRIB_SOURCE=${ROOT_PATH}\\opencv_contrib
     OUTPUT_PATH=${ROOT_PATH}\\build\\${ABI}
 
-    CFLAGS="-O3 -fPIC -Wall -pipe \
-    -std=c99 \
-    -ffast-math \
-    -fstrict-aliasing -Werror=strict-aliasing \
-    -Wa,--noexecstack \
-    -DANDROID -DNDEBUG"
+    CFLAGS="-O3 -Wall \
+    -Wa,--noexecstack"
 
     CFG_FLAGS="-GNinja"
     if [ "$cygwin" = "true" -o "$msys" = "true" ]; then
@@ -79,14 +80,16 @@ function compile() {
     CFG_FLAGS="$CFG_FLAGS -DCMAKE_BUILD_TYPE=Release"
     CFG_FLAGS="$CFG_FLAGS -DCMAKE_TOOLCHAIN_FILE='${ANDROID_NDK}/build/cmake/android.toolchain.cmake'"
     CFG_FLAGS="$CFG_FLAGS -DCMAKE_INSTALL_PREFIX='${OUTPUT_PATH}'"
-    CFG_FLAGS="$CFG_FLAGS -DCMAKE_PREFIX_PATH='${OUTPUT_PATH}/output'"
+    # CFG_FLAGS="$CFG_FLAGS -DCMAKE_PREFIX_PATH='${OUTPUT_PATH}/output'"
     CFG_FLAGS="$CFG_FLAGS -DANDROID_NDK='${ANDROID_NDK}'"
     CFG_FLAGS="$CFG_FLAGS -DANDROID_NATIVE_API_LEVEL=${ANDROID_PLATFORM}"
     CFG_FLAGS="$CFG_FLAGS -DANDROID_ABI=${ABI}"
     CFG_FLAGS="$CFG_FLAGS -DANDROID_STL=c++_shared"
+    # CFG_FLAGS="$CFG_FLAGS -DCMAKE_C_FLAGS_RELEASE='${CFLAGS}'"
+    # CFG_FLAGS="$CFG_FLAGS -DCMAKE_CXX_FLAGS_RELEASE='${CFLAGS}'"
 
     # with user config module
-    export COMMON_CV_CFG_FLAGS= 
+    export COMMON_CV_CFG_FLAGS=
     . ${ROOT_PATH}\\config\\module.sh
     CFG_FLAGS="$CFG_FLAGS ${COMMON_CV_CFG_FLAGS}"
 
@@ -97,10 +100,10 @@ function compile() {
     echo "CFLAGS = $CFLAGS"
     echo "CFG_FLAGS = $CFG_FLAGS"
 
-    if [ ! -d "${OUTPUT_PATH}" ]; then
-        mkdir -p ${OUTPUT_PATH}
+    if [ -d "${OUTPUT_PATH}" ]; then
+        rm -rf ${OUTPUT_PATH}
     fi
-    rm -rf ${OUTPUT_PATH}/*
+    mkdir -p ${OUTPUT_PATH}
     cd ${OUTPUT_PATH}
 
     cmake ${CV_SOURCE} ${CFG_FLAGS}
