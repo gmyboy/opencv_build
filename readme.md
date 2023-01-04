@@ -1,13 +1,11 @@
-### IRDetector构建步骤
+### opencv构建步骤
 
-> abi 参数可选
-
-1.初始化项目依赖库:OpenCV OpenCV_contrib
+1.初始化项目源码库:OpenCV OpenCV_contrib 设置版本:version_opencv and version_opencv_contrib
 ```
 ./init.sh
 ```
 
-2.配置OpenCV参数 
+2.设置预构建参数 
 - default or ""：默认配置
 - calib3d：包含calib3d的轻量级配置，用于(ImageMatch-ORB)
 - min：最小化编译，只包含core
@@ -16,7 +14,7 @@
 ./config.sh [min|calib3d|default or ""]
 ```
 
-3.构建OpenCV
+3.开始构建
 ```
 ./compile-android.sh [armeabi-v7a|arm64-v8a|x86|x86_64|""(build all as default)]
 ```
