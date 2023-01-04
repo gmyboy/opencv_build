@@ -8,7 +8,7 @@
 ```
 
 2.配置OpenCV参数 
-- default：默认配置
+- default or ""：默认配置
 - calib3d：包含calib3d的轻量级配置，用于(ImageMatch-ORB)
 - min：最小化编译，只包含core
 

@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 #
 # 设置配置项
 #
@@ -45,7 +43,7 @@ default)
     echo ""
     echo "config complete with default"
     ;;
-*)
+*|-h|-help)
     echo_usage
     exit 1
     ;;

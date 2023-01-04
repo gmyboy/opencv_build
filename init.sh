@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 #
 #从远程仓库下载OpenCV相关依赖库
 #本地fork，并创建分支
@@ -17,9 +15,9 @@ set -e
 #remote_opencv=https://github.com/opencv/opencv.git
 # use mirror
 remote_opencv=http://192.168.10.14:3000/gmy/opencv.git
-version_opencv=4.5.1
+version_opencv=4.7.0
 remote_opencv_contrib=http://192.168.10.14:3000/gmy/opencv_contrib.git
-version_opencv_contrib=4.5.1
+version_opencv_contrib=4.7.0
 local_opencv=opencv
 local_opencv_contrib=opencv_contrib
 
