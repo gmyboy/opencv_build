@@ -40,22 +40,23 @@ esac
 echo "PLATFORM = $UNAME_SM"
 
 # environment params
+PYTHON_BINARY=E:/python/Python38/python.exe #build opencv_android needed
 export ANDROID_NDK_HOME=$ANDROID_HOME\\ndk\\21.2.6472646
-ANDROID_CMAKE=$ANDROID_HOME\\cmake\\3.22.1
+ANDROID_CMAKE=$ANDROID_HOME\\cmake\\3.10.2.4988404
 ANDROID_PLATFORM=21
 echo "ANDROID_SDK = $ANDROID_HOME"
 echo "ANDROID_NDK_HOME = $ANDROID_NDK_HOME"
 echo "ANDROID_CMAKE = $ANDROID_CMAKE"
 echo "ANDROID_PLATFORM = $ANDROID_PLATFORM"
 
-ACT_ARCHS_ALL="armeabi-v7a arm64-v8a x86 x86_64"
+ACT_ARCHS_ALL="x86 x86_64 armeabi-v7a arm64-v8a "
 
 if [ "$cygwin" = "true" -o "$msys" = "true" ]; then
-    ANDROID_CMAKE_BINARY=${ANDROID_CMAKE}\\bin\\cmake.exe
-    ANDROID_NINJA_BINARY=${ANDROID_CMAKE}\\bin\\ninja.exe
+    CMAKE_BINARY=${ANDROID_CMAKE}\\bin\\cmake.exe
+    NINJA_BINARY=${ANDROID_CMAKE}\\bin\\ninja.exe
 else
-    ANDROID_CMAKE_BINARY=${ANDROID_CMAKE}\\bin\\cmake
-    ANDROID_NINJA_BINARY=${ANDROID_CMAKE}\\bin\\ninja
+    CMAKE_BINARY=${ANDROID_CMAKE}\\bin\\cmake
+    NINJA_BINARY=${ANDROID_CMAKE}\\bin\\ninja
 fi
 
 function compile() {
@@ -74,7 +75,10 @@ function compile() {
     -Wa,--noexecstack"
 
     CFG_FLAGS="-GNinja"
-    CFG_FLAGS="$CFG_FLAGS -DCMAKE_MAKE_PROGRAM='${ANDROID_NINJA_BINARY}'"
+    CFG_FLAGS="$CFG_FLAGS -DCMAKE_MAKE_PROGRAM='${NINJA_BINARY}'"
+    CFG_FLAGS="$CFG_FLAGS -DPYTHON_EXECUTABLE='${PYTHON_BINARY}'"
+    CFG_FLAGS="$CFG_FLAGS -DPYTHON2_EXECUTABLE='${PYTHON_BINARY}'"
+    CFG_FLAGS="$CFG_FLAGS -DPYTHON3_EXECUTABLE='${PYTHON_BINARY}'"
 
     # if [ -d "${CV_CONTRIB_SOURCE}\\modules" ]; then
     #     CFG_FLAGS="$CFG_FLAGS -DOPENCV_EXTRA_MODULES_PATH=${CV_CONTRIB_SOURCE}\\modules"
@@ -109,9 +113,9 @@ function compile() {
     fi
     cd ${OUTPUT_PATH}
 
-    ${ANDROID_CMAKE_BINARY} ${CV_SOURCE} ${CFG_FLAGS}
-    ${ANDROID_NINJA_BINARY} clean
-    ${ANDROID_NINJA_BINARY} install
+    ${CMAKE_BINARY} ${CV_SOURCE} ${CFG_FLAGS}
+    ${NINJA_BINARY} clean
+    ${NINJA_BINARY} install
 
     cd -
 }
