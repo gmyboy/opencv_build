@@ -12,7 +12,8 @@ NC='\033[0m'
 # -e 　若指令传回值不等于0，则立即退出shell。
 set -e
 
-#remote_opencv=https://github.com/opencv/opencv.git
+#remote_opencv=https://github.com/gmyboy/opencv.git
+#remote_opencv_contrib=https://github.com/gmyboy/opencv_contrib.git
 # use mirror
 remote_opencv=http://192.168.10.14:3000/gmy/opencv.git
 version_opencv=4.7.0
