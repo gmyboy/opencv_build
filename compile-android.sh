@@ -49,7 +49,7 @@ echo "ANDROID_NDK_HOME = $ANDROID_NDK_HOME"
 echo "ANDROID_CMAKE = $ANDROID_CMAKE"
 echo "ANDROID_PLATFORM = $ANDROID_PLATFORM"
 
-ACT_ARCHS_ALL="x86 x86_64 armeabi-v7a arm64-v8a "
+ACT_ARCHS_ALL="armeabi-v7a arm64-v8a x86 x86_64"
 
 if [ "$cygwin" = "true" -o "$msys" = "true" ]; then
     CMAKE_BINARY=${ANDROID_CMAKE}\\bin\\cmake.exe
@@ -80,9 +80,9 @@ function compile() {
     CFG_FLAGS="$CFG_FLAGS -DPYTHON2_EXECUTABLE='${PYTHON_BINARY}'"
     CFG_FLAGS="$CFG_FLAGS -DPYTHON3_EXECUTABLE='${PYTHON_BINARY}'"
 
-    # if [ -d "${CV_CONTRIB_SOURCE}\\modules" ]; then
-    #     CFG_FLAGS="$CFG_FLAGS -DOPENCV_EXTRA_MODULES_PATH=${CV_CONTRIB_SOURCE}\\modules"
-    # fi
+    if [ -d "${CV_CONTRIB_SOURCE}\\modules" ]; then
+        CFG_FLAGS="$CFG_FLAGS -DOPENCV_EXTRA_MODULES_PATH=${CV_CONTRIB_SOURCE}\\modules"
+    fi
 
     CFG_FLAGS="$CFG_FLAGS -DCMAKE_BUILD_TYPE=Release"
     CFG_FLAGS="$CFG_FLAGS -DCMAKE_TOOLCHAIN_FILE='${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake'"
